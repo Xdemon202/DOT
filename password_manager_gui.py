@@ -43,7 +43,7 @@ To delete a password, enter the account name and click "Delete Password".'''
 
 signature = "Developed by Dmitrii Khadzhiev"
 
-BACKGROUND_COLOR = "green"
+BACKGROUND_COLOR = "white"
 FRAME_COLOR = "#d3d3d3"
 
 window = tk.Tk()

@@ -1,0 +1,19 @@
+# Ignore Python bytecode files
+*.pyc
+__pycache__/
+
+# Ignore password and key files
+passwords.json
+secret.key
+test_passwords.json
+
+# Ignore virtual environments
+venv/
+env/
+
+# Ignore IDE/editor-specific files
+.vscode/
+.idea/
+
+# Ignore log files
+*.log

@@ -1,57 +1,51 @@
 import json
+import os
 from cryptography.fernet import Fernet
 
-passwords = {}
+class PasswordManager:
+    def __init__(self, file_path="passwords.json"):
+        self.file_path = file_path
+        self.key_path = "secret.key"
+        self.key = self.load_key()
+        self.cipher = Fernet(self.key)
+        self.passwords = self.load_passwords()
 
-def generate_key():
-    key = Fernet.generate_key()
-    with open('secret.key', 'wb') as key_file:
-        key_file.write(key)
-    return key
+    def load_key(self):
+        if not os.path.exists(self.key_path):
+            self.generate_key()
+        with open(self.key_path, "rb") as key_file:
+            return key_file.read()
 
-def load_key():
-    with open('secret.key', 'rb') as key_file:
-        key = key_file.read()
-    return key
+    def generate_key(self):
+        key = Fernet.generate_key()
+        with open(self.key_path, "wb") as key_file:
+            key_file.write(key)
 
-def encrypt_data(key, data):
-    f = Fernet(key)
-    encrypted_data = f.encrypt(data.encode())
-    return encrypted_data
+    def load_passwords(self):
+        if os.path.exists(self.file_path):
+            with open(self.file_path, "rb") as file:
+                encrypted_data = file.read()
+                decrypted_data = self.cipher.decrypt(encrypted_data)
+                return json.loads(decrypted_data)
+        return {}
 
-def decrypt_data(key, encrypted_data):
-    f = Fernet(key)
-    decrypted_data = f.decrypt(encrypted_data).decode()
-    return decrypted_data
+    def save_passwords(self):
+        encrypted_data = self.cipher.encrypt(json.dumps(self.passwords).encode())
+        with open(self.file_path, "wb") as file:
+            file.write(encrypted_data)
 
-def save_passwords():
-    key = load_key()
-    decoded_passwords = {service: {'username': info['username'], 'password': decrypt_data(key, info['password'])} for service, info in passwords.items()}
-    encrypted_data = encrypt_data(key, json.dumps(decoded_passwords))
-    with open('passwords.enc', 'wb') as file:
-        file.write(encrypted_data)
-    print("Passwords saved")
+    def add_password(self, service, username, password):
+        self.passwords[service] = {"username": username, "password": password}
+        self.save_passwords()
 
-def load_passwords():
-    global passwords
-    key = load_key()
-    with open('passwords.enc', 'rb') as file:
-        encrypted_data = file.read()
-    decrypted_data = decrypt_data(key, encrypted_data)
-    decoded_passwords = json.loads(decrypted_data)
-    passwords = {service: {'username': info['username'], 'password': encrypt_data(key, info['password'])} for service, info in decoded_passwords.items()}
-    print("Passwords loaded:", passwords)
+    def get_password(self, service):
+        if service in self.passwords:
+            return self.passwords[service]["password"]
+        return None
 
-def add_password(service, username, password):
-    global passwords
-    passwords[service] = {'username': username, 'password': encrypt_data(load_key(), password)}
-    print(f"Password added for service {service}: {passwords[service]}")
-
-def get_password(service):
-    return decrypt_data(load_key(), passwords[service]['password'])
-
-def delete_password(service):
-    global passwords
-    if service in passwords:
-        del passwords[service]
-    print(f"Password deleted for service {service}")
+    def delete_password(self, service):
+        if service in self.passwords:
+            del self.passwords[service]
+            self.save_passwords()
+            return True
+        return False

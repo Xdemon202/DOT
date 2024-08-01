@@ -29,19 +29,19 @@ git clone <https://github.com/username/repository.git>
 
 cd repository
 
-Use code [with caution.](/faq#coding)
+Use code with caution.
 
 1. **Make the Build Script Executable:**
 
 chmod +x build.sh
 
-Use code [with caution.](/faq#coding)
+Use code with caution.
 
 1. **Install Dependencies:**
 
 ./build.sh install
 
-Use code [with caution.](/faq#coding)
+Use code with caution.
 
 **Optional Steps:**
 
@@ -54,7 +54,7 @@ Use code [with caution.](/faq#coding)
 
 ./build.sh all
 
-Use code [with caution.](/faq#coding)
+Use code with caution.
 
 This will create a deployable package named password_manager.zip in the project directory.
 
@@ -62,7 +62,7 @@ This will create a deployable package named password_manager.zip in the project 
 
 python3 password_manager_gui.py
 
-Use code [with caution.](/faq#coding)
+Use code with caution.
 
 **Using the Application:**
 

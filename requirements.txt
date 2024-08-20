@@ -1,5 +1,6 @@
 # requirements.txt
 
 # Specify the dependencies needed for the project
-tkinter
-unittest
+tk
+#tkinter
+#unittest

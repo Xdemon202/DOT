@@ -91,7 +91,6 @@ class TestPasswordManager(unittest.TestCase):
         encrypted = encrypt_data(key, data)
         decrypted = decrypt_data(key, encrypted)
         self.assertEqual(data, decrypted.encode())
-''''
     def test_password_storage_retrieval(self):
         service = 'test_service'
         username = 'test_user'
@@ -110,7 +109,7 @@ class TestPasswordManager(unittest.TestCase):
         add_password(service, 'test_user', 'test_password')
         delete_password(service)
         self.assertFalse(service in passwords)
-'''
+
 if __name__ == '__main__':
     unittest.main()
 

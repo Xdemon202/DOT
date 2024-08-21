@@ -2,5 +2,5 @@
 
 # Specify the dependencies needed for the project
 tk
-#tkinter
 #unittest
+cryptography

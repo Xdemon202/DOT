@@ -10,7 +10,7 @@ test_passwords.json
 # Ignore virtual environments
 venv/
 env/
-
+.venv
 # Ignore IDE/editor-specific files
 .vscode/
 .idea/

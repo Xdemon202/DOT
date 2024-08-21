@@ -3,6 +3,7 @@
 # Define variables
 PYTHON=python3
 PIP=pip3
+TEST_DIR="."
 
 # Install dependencies
 install() {
@@ -13,7 +14,7 @@ install() {
 # Run tests
 test() {
     echo "Running tests..."
-    $PYTHON -m unittest discover -s tests
+    $PYTHON -m unittest test_logic.py -v
 }
 
 # Package the application
